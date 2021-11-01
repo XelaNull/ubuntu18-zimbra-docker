@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#!/bin/sh
 ## Preparing all the variables like IP, Hostname, etc, all of them from the container
 sleep 5
 
 if [[ ! -f "/zimbraConfigured" ]]; then
+  mkdir -p /opt/zimbra-install
   
   HOSTNAME=$(hostname -a)
   DOMAIN=$(hostname -d)
@@ -23,12 +23,12 @@ if [[ ! -f "/zimbraConfigured" ]]; then
   mx-host=$DOMAIN,$HOSTNAME.$DOMAIN,0
   address=/$HOSTNAME.$DOMAIN/$CONTAINERIP
   user=root
-  EOF
-  sudo service dnsmasq restart
+EOF
+sudo service dnsmasq restart
 
-  ##Creating the Zimbra Collaboration Config File ##
-  touch /opt/zimbra-install/installZimbraScript
-  cat <<EOF >/opt/zimbra-install/installZimbraScript
+##Creating the Zimbra Collaboration Config File ##
+touch /opt/zimbra-install/installZimbraScript
+cat <<EOF >/opt/zimbra-install/installZimbraScript
 AVDOMAIN="$DOMAIN"
 AVUSER="admin@$DOMAIN"
 CREATEADMIN="admin@$DOMAIN"
@@ -135,7 +135,7 @@ EOF
   echo "Downloading Zimbra Collaboration 8.8.15"
   wget -O /opt/zimbra-install/zimbra-zcs-8.8.15.tar.gz https://files.zimbra.com/downloads/8.8.15_GA/zcs-8.8.15_GA_3869.UBUNTU18_64.20190918004220.tgz
 
-  echo "Extracting files from the archive"
+  echo "Extracting files fromin the archive"
   tar xzvf /opt/zimbra-install/zimbra-zcs-8.8.15.tar.gz -C /opt/zimbra-install/
 
   echo "Update package cache"
